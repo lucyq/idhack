@@ -1,3 +1,4 @@
+
 LOAD CSV WITH HEADERS FROM "file:/Users/Lucy/Documents/CS/urbinsight/data/unstream3.csv" AS csvLine
 CREATE (:Upstream { geodb_subt: csvLine.GEODB_SUBT,
                     geodb_oid: csvLine.GEODB_OID,
