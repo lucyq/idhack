@@ -7,18 +7,23 @@ var bodyParser = require('body-parser');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
-var neo4j = require('neo4j');
+var neo4j = require('node-neo4j');
 
-var db = new neo4j.GraphDatabase(
-        process.env['GRAPHENEDB_URL'] ||
-        'http://localhost:7474'
- );
+// var db = new neo4j.GraphDatabase(
+//         process.env['GRAPHENEDB_URL'] ||
+//         'http://localhost:7474'
+// );
+
+
+
 
 var app = express();
 // neo4j test
+var db = new neo4j('http://localhost:7474');
 
-var node = db.createNode({hello: 'world'});     // instantaneous, but...
-node.save(function (err, node) {    // ...this is what actually persists.
+
+var node = db.insertNode({hello: 'world'},     // instantaneous, but...
+    function (err, node) {    // ...this is what actually persists.
     if (err) {
         console.error('Error saving new node to database:', err);
     } else {

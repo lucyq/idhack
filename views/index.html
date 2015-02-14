@@ -6,6 +6,7 @@
 
 #map {
 	position:absolute; 
+	margin: 100px;
 	top: 50px; 
 	bottom:0; 
 	width:80%;
@@ -15,7 +16,7 @@
 
 		</style>
 
-		<link href="../public/stylesheets/style.css" rel="stylesheet"/>
+		<link href="stylesheets/style.css" rel="stylesheet"/>
 		<meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
 		<script src='https://api.tiles.mapbox.com/mapbox.js/v2.1.5/mapbox.js'></script>
 		<link href='https://api.tiles.mapbox.com/mapbox.js/v2.1.5/mapbox.css' rel='stylesheet' />
@@ -35,6 +36,10 @@
 L.mapbox.accessToken = 'pk.eyJ1IjoibHVjeXEiLCJhIjoiZUlJaWtQRSJ9.CwFNvX2smJ4mav7RmlqwZw';
 var map = L.mapbox.map('map', 'examples.map-i86nkdio')
     .setView([40, -74.50], 9);
+
+L.marker([51.5, -0.09]).addTo(map)
+    .bindPopup('A pretty CSS3 popup. <br> Easily customizable.')
+    .openPopup();
 </script>
 
 
