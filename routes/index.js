@@ -28,13 +28,13 @@ router.get('/data/relationships', function(req, res, next) {
 	var direction = url_parts['query']['direction'];
 
 
-	// db.relate(46, 'stream', 49, { for: 'up' }, function(err, relationship) {
+	// db.relate(312, 'stream', 210, { for: 'up' }, function(err, relationship) {
  //  		assert.deepEqual(relationship, {
- //    		start: 46,
-	// 	    end: 49,
+ //    		start: 312,
+	// 	    end: 210,
 	// 	    type: 'stream',
 	// 	    properties: { for: 'up' },
-	// 	    id: 7
+	// 	    id: 22
 	// 	});
 	// });
 

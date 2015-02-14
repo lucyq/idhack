@@ -16,9 +16,9 @@
 	</head>
 
 	<body>
-		<div>
 	
 		<h1>urbinsight</h1>
+		<div class="toggle">
 			<button id="vancouver_btn" class="btn btn-default">Vancouver</button>
 			<button id="dummy_btn" class="btn btn-default">Dummy</button>
 		</div>
@@ -32,7 +32,7 @@
 
 L.mapbox.accessToken = 'pk.eyJ1IjoibHVjeXEiLCJhIjoiZUlJaWtQRSJ9.CwFNvX2smJ4mav7RmlqwZw';
 var map = L.mapbox.map('map', 'examples.map-i86nkdio', {
-	minZoom: 12,
+	// minZoom: 12,
 	// maxZoom: 5
 }).setView([49.2496600, -123.1193400], 5);
 
@@ -40,8 +40,10 @@ $('#vancouver_btn').click(function(){
 
 	renderLevel('Source', '#9c89cc');
 	renderLevel('Upstream', '#7ec9b1');
+	renderLevel('Parcel', '#3ca0d3');
 	renderLevel('Downstream', '#fa946e');
 	renderLevel('Sink', '#f1f075')
+
 
 
 	// $.get('/data/infoByLabel?label=Upstream', function (data, status) {
@@ -71,8 +73,9 @@ function renderLevel(label, color) {
 					'marker-size': 'small',
 					'marker-color':color
 				})
-			}).addTo(map).on('click', function() {
-				renderLine(lat, lng, location, 'in');
+			}).bindPopup("<p>Label: " + label + "</p><p>Id: " + location.id + "</p>")
+			  .addTo(map).on('click', function() {
+				renderLine(location, 'all');
 				
 			});
 		});
@@ -101,26 +104,50 @@ $('#dummy_btn').click(function(){
 	// });
 });
 
-
-function renderLine(lat, lng, location, direction) {
-	var query_string = '/data/relationships?node_index=' + location.id + '&direction=' + direction;
+function renderLine(location, direction){
+	var query_string = 'data/relationships?node_index=' + location.id + '&direction=' + direction;
 	$.get(query_string, function(rel_data, status) {
-		if(rel_data )
+		var coords = [[parseFloat(location.lat), parseFloat(location.lng)]];
 		_.each (rel_data, function(point) {
-			var coords = [[lat,lng]];
-			var query_2 = '/data/infoByNode/?node_index=' + point.end;
-			$.get(query_2, function(node_data) {
-				var lat_end = parseFloat(node_data.lat);
-				var lng_end = parseFloat(node_data.lng);
-				coords.push([lat_end, lng_end]);
+			var query_string_2 = 'data/relationships?node_index=' + point.id + '&direction=' + direction;
+			$.get(query_string_2, function(rel_data_2, status){
+				var coords2 = [[parseFloat(point.lat), parseFloat(point.lng)]];
+				_.each (rel_data_2, function(point2){
+					var lat_end = parseFloat(point2.lat);
+					var lng_end = parseFloat(point2.lng);
+					coords2.push([lat_end, lng_end]);
+					var polyline = L.polyline(coords, {color: 'teal'}).addTo(map);
+				})
+			})
 
-				var polyline = L.polyline(coords, {color: 'teal'}).addTo(map);
-				renderLine(lat_end, lng_end, location)	
-			});
+			var lat2 = parseFloat(point.lat);
+			var lng2 = parseFloat(point.lng);
+			coords.push([lat2, lng2]);
+			var polyline = L.polyline(coords, {color: 'teal'}).addTo(map);
 		});
 	});
-	
 }
+
+// function renderLine(location, direction) {
+
+// 	var query_string = '/data/relationships?node_index=' + location.id + '&direction=' + direction;
+// 	$.get(query_string, function(rel_data, status) {
+// 		_.each (rel_data, function(point) {
+// 			var coords = [[parseFloat(lat), parseFloat(lng)]];
+// 			var query_2 = '/data/infoByNode/?node_index=' + point.end;
+// 			$.get(query_2, function(node_data) {
+// 				var lat_end = parseFloat(node_data.lat);
+// 				var lng_end = parseFloat(node_data.lng);
+// 				coords.push([lat_end, lng_end]);
+
+// 				var polyline = L.polyline(coords, {color: 'teal'}).addTo(map);
+// 				
+// 				renderLine(lat_end, lng_end, point, direction);	
+// 			});
+// 		});
+// 	});
+	
+// }
 
 </script>
 
