@@ -59,8 +59,10 @@ router.get('/data/infoByNode', function(req,res,next){
 
 
 router.get('/data/infoByLabel', function(req, res, next) {
+	var url_parts = url.parse(req.url, true);
+	var label = url_parts['query']['label'];	
 
-    	db.nodesWithLabel('Location', function(err, results) {
+    	db.nodesWithLabel(label, function(err, results) {
       		res.send(results); // -> 'DS4'
     	});
   	
