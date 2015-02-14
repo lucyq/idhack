@@ -6,4 +6,9 @@ router.get('/', function(req, res, next) {
   res.render('index', { title: 'urbinsight' });
 });
 
+// router.get('/data', function(req, res, next) {
+	
+
+// });
+
 module.exports = router;

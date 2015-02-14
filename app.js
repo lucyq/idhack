@@ -6,7 +6,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
 var routes = require('./routes/index');
-var users = require('./routes/users');
+// var users = require('./routes/users');
 var neo4j = require('node-neo4j');
 
 // var db = new neo4j.GraphDatabase(
@@ -32,7 +32,8 @@ var node = db.insertNode({hello: 'world'},     // instantaneous, but...
 });
 
 // view engine setup
-app.set('views', path.join(__dirname, 'views'));
+// app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'ejs');
 app.use(express.static(path.join(__dirname + '/views')));
 
 
@@ -45,7 +46,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
-app.use('/users', users);
+//    
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -68,6 +69,7 @@ if (app.get('env') === 'development') {
     });
 }
 
+
 // production error handler
 // no stacktraces leaked to user
 app.use(function(err, req, res, next) {
@@ -77,6 +79,17 @@ app.use(function(err, req, res, next) {
         error: {}
     });
 });
+
+
+
+// Data request
+app.get('/data', function(req, res, next) {
+    var id = req.query.node_id;
+    db.read(node_id, function(err, node) {
+        res.send(node);
+    });
+});
+
 
 
 module.exports = app;
