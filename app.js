@@ -8,6 +8,7 @@ var bodyParser = require('body-parser');
 var routes = require('./routes/index');
 // var users = require('./routes/users');
 var neo4j = require('node-neo4j');
+
 var users = require('./routes/users');
 // var neo4j = require('node-neo4j');
 
@@ -97,15 +98,6 @@ app.use(function(err, req, res, next) {
     });
 });
 
-
-
-// Data request
-app.get('/data', function(req, res, next) {
-    var id = req.query.node_id;
-    db.read(node_id, function(err, node) {
-        res.send(node);
-    });
-});
 
 
 
