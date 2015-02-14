@@ -14,12 +14,12 @@ var neo4j = require('node-neo4j');
 //         'http://localhost:7474'
 // );
 
-
+var dbRemote = require("seraph")({ server: })
 
 
 var app = express();
 // neo4j test
-var db = new neo4j('http://localhost:7474');
+var db = new neo4j(process.env['GRAPHENEDB_URL'] || 'http://localhost:7474');
 
 
 var node = db.insertNode({hello: 'world'},     // instantaneous, but...
