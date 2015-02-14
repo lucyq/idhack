@@ -26,14 +26,14 @@ router.get('/data/relationships', function(req, res, next) {
 	var url_parts = url.parse(req.url, true);
 	var node_id = url_parts['query']['node_index'];
 
-	// ADD A RELATIONSHIP
-	// db.relate(1, 'knows', 2, { for: '2 months' }, function(err, relationship) {
+
+	// db.relate(46, 'stream', 49, { for: 'up' }, function(err, relationship) {
  //  		assert.deepEqual(relationship, {
- //    		start: 1,
-	// 	    end: 2,
-	// 	    type: 'knows',
-	// 	    properties: { for: '2 months' },
-	// 	    id: 1
+ //    		start: 46,
+	// 	    end: 49,
+	// 	    type: 'stream',
+	// 	    properties: { for: 'up' },
+	// 	    id: 7
 	// 	});
 	// });
 
@@ -48,14 +48,20 @@ router.get('/data/relationships', function(req, res, next) {
     // });
 });
 
-router.get('/data/node_info', function(req, res, next) {
+router.get('/data/infoByNode', function(req,res,next){
 	var url_parts = url.parse(req.url, true);
-	var node_id = url_parts['query']['node_index'];
+	var node_id = url_parts['query']['node_index'];	
 
-  	
+	db.read(node_id, function(err, node) {
+		res.send(node);
+	});
+});
+
+
+router.get('/data/infoByLabel', function(req, res, next) {
+
     	db.nodesWithLabel('Location', function(err, results) {
-    		console.log("RESULTS: " + results);
-      		res.send([results]); // -> 'DS4'
+      		res.send(results); // -> 'DS4'
     	});
   	
 	// var data_arr = [];

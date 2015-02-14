@@ -41,9 +41,6 @@
 <script>
 
 
-
-
-
 L.mapbox.accessToken = 'pk.eyJ1IjoibHVjeXEiLCJhIjoiZUlJaWtQRSJ9.CwFNvX2smJ4mav7RmlqwZw';
 var map = L.mapbox.map('map', 'examples.map-i86nkdio', {
 	// minZoom: 10,
@@ -55,12 +52,42 @@ var info = map.getTileJSON();
 console.log("Map info: " + info);
 
 $('#vancouver_btn').click(function(){
-	$.get('/data/node_info?node_index=47', function (data, status) {
+	$.get('/data/infoByLabel', function (data, status) {
 		_.each(data, function(location){
-			alert("data: " + data);
 			var lat = parseFloat(location.lat);
 			var lng = parseFloat(location.lng);
-			L.marker([lat, lng]).addTo(map)
+			L.marker([lat, lng]).addTo(map).on('click', function() {
+//				alert(e.id);
+				var query_string = '/data/relationships?node_index=' + location.id;
+
+				$.get(query_string, function(rel_data, status) {
+					for (var i = 0; i < rel_data.length; i++) {
+						// start
+						var start_coords = [];
+						debugger
+						var q_s = '/data/infoByNode/?node_index=' + rel_data[i].start;
+						$.get(q_s, function(node_data) {
+							var lat = node_data.lat;
+							var lng = node_data.lng;
+							start_coords = [lat,lng];
+						});
+
+						var end_coords = [];
+						q_s = '/data/infoByNode/?node_index=' + rel_data[i].end;
+						$.get(q_s, function(node_data) {
+							var lat = node_data.lat;
+							var lng = node_data.lng;
+							end_coords = [lat,lng];
+						});
+
+
+						var latlngs = [start_coords, end_coords];
+						var polyline = L.polyline(latlngs, {color: 'blue'}).addTo(map);
+					}
+				});
+
+
+			});
 		});
 	});
 });
