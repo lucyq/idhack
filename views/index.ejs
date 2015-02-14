@@ -34,24 +34,46 @@ var map = L.mapbox.map('map', 'examples.map-i86nkdio', {
 	// maxZoom: 5
 }).setView([49.2496600, -123.1193400], 5);
 
-var info = map.getTileJSON();
-
-//console.log("Map info: " + info);
-
 $('#vancouver_btn').click(function(){
-	$.get('/data/infoByLabel?label=Upstream', function (data, status) {
+
+	renderLevel('Upstream', '#7ec9b1');
+	renderLevel('Source', '#9c89cc')
+
+	// $.get('/data/infoByLabel?label=Upstream', function (data, status) {
+	// 	_.each(data, function(location){
+	// 		var lat = parseFloat(location.lat);
+	// 		var lng = parseFloat(location.lng);
+	// 		L.marker([lat, lng], {
+	// 			icon: L.mapbox.marker.icon({
+	// 				'marker-size': 'small',
+	// 				'marker-color':'#7ec9b1'
+	// 			})
+	// 		}).addTo(map).on('click', function() {
+	// 			renderLine(lat, lng);
+				
+	// 		});
+	// 	});
+	// });
+});
+
+function renderLevel(label, color) {
+		$.get('/data/infoByLabel?label=' + label, function (data, status) {
 		_.each(data, function(location){
 			var lat = parseFloat(location.lat);
 			var lng = parseFloat(location.lng);
-			L.marker([lat, lng], 'red').addTo(map).on('click', function() {
+			L.marker([lat, lng], {
+				icon: L.mapbox.marker.icon({
+					'marker-size': 'small',
+					'marker-color':color
+				})
+			}).addTo(map).on('click', function() {
 				renderLine(lat, lng);
 				
 			});
 		});
 	});
-});
 
-
+}
 
 
 $('#dummy_btn').click(function(){
@@ -65,7 +87,6 @@ $('#dummy_btn').click(function(){
 		});
 	});
 });
-
 
 
 function renderLine(lat, lng, location) {
