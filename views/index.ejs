@@ -5,6 +5,8 @@
 		<script src="bower_components/jquery/dist/jquery.js"></script>
 		<script src="bower_components/underscore/underscore.js"></script>
 
+		<link rel="icon" type="image/png" href="../images/map-favi.png">
+
 		<link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css"/>
 		<link href="stylesheets/style.css" rel="stylesheet"/>
 		<meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
@@ -30,7 +32,7 @@
 
 L.mapbox.accessToken = 'pk.eyJ1IjoibHVjeXEiLCJhIjoiZUlJaWtQRSJ9.CwFNvX2smJ4mav7RmlqwZw';
 var map = L.mapbox.map('map', 'examples.map-i86nkdio', {
-	// minZoom: 4,
+	minZoom: 12,
 	// maxZoom: 5
 }).setView([49.2496600, -123.1193400], 5);
 
