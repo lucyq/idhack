@@ -2,19 +2,6 @@
 	<head>
 		<title>urbinsight</title>
 
-		<style>
-
-#map {
-	position:absolute; 
-	margin: 100px;
-	top: 50px; 
-	bottom:0; 
-	width:80%;
-	height: 800px;
-}
-
-
-		</style>
 		<script src="bower_components/jquery/dist/jquery.js"></script>
 		<script src="bower_components/underscore/underscore.js"></script>
 
@@ -27,11 +14,12 @@
 	</head>
 
 	<body>
+		<div>
 	
 		<h1>urbinsight</h1>
 			<button id="vancouver_btn" class="btn btn-default">Vancouver</button>
 			<button class="btn btn-primary">Medellin</button>
-		
+		</div>
 			<div id='map'></div>
 
 
@@ -43,8 +31,8 @@
 
 L.mapbox.accessToken = 'pk.eyJ1IjoibHVjeXEiLCJhIjoiZUlJaWtQRSJ9.CwFNvX2smJ4mav7RmlqwZw';
 var map = L.mapbox.map('map', 'examples.map-i86nkdio', {
-	// minZoom: 10,
-	// // maxZoom: 
+	// minZoom: 4,
+	// maxZoom: 5
 }).setView([49.2496600, -123.1193400], 5);
 
 var info = map.getTileJSON();
@@ -52,39 +40,37 @@ var info = map.getTileJSON();
 //console.log("Map info: " + info);
 
 $('#vancouver_btn').click(function(){
-	$.get('/data/infoByLabel?label=Upstream', function (data, status) {
+	$.get('/data/infoByLabel?label=Location', function (data, status) {
 		_.each(data, function(location){
 			var lat = parseFloat(location.lat);
 			var lng = parseFloat(location.lng);
 			L.marker([lat, lng]).addTo(map).on('click', function() {
-//				alert(e.id);
-				var query_string = '/data/relationships?node_index=' + location.id;
-
-				$.get(query_string, function(rel_data, status) {
-					_.each (rel_data, function(point) {
-						var coords = [[lat,lng]];
-						// var query_1 = '/data/infoByNode/?node_index=' + point.start;
-						// $.get(query_1)
-						var query_2 = '/data/infoByNode/?node_index=' + point.end;
-						$.get(query_2, function(node_data) {
-								var lat_end = parseFloat(node_data.lat);
-								var lng_end = parseFloat(node_data.lng);
-								coords.push([lat_end, lng_end]);
-
-								var polyline = L.polyline(coords, {color: 'blue'}).addTo(map);
-							
-						});
-					});
-				});
+				renderLine(lat, lng);
+				
 			});
 		});
 	});
 });
 
 
-// L.marker([51.5, -0.09]).addTo(map)
-//     .bindPopup('A pretty CSS3 popup. <br> Easily customizable.')
-//     .openPopup();
+function renderLine(lat, lng) {
+	var query_string = '/data/relationships?node_index=' + location.id;
+	$.get(query_string, function(rel_data, status) {
+		_.each (rel_data, function(point) {
+			var coords = [[lat,lng]];
+			console.log("COORDS: " + coords);
+			var query_2 = '/data/infoByNode/?node_index=' + point.end;
+			$.get(query_2, function(node_data) {
+				var lat_end = parseFloat(node_data.lat);
+				var lng_end = parseFloat(node_data.lng);
+				coords.push([lat_end, lng_end]);
+
+				var polyline = L.polyline(coords, {color: 'blue'}).addTo(map);	
+			});
+		});
+	});
+}
+
 </script>
 
 
