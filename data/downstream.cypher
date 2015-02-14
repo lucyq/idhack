@@ -1,6 +1,6 @@
 
-LOAD CSV WITH HEADERS FROM "file:/Users/ashokafinley/development/idhack/data/downstream.csv" AS csvLine
-CREATE (:Upstream { geodb_subt: csvLine.GEODB_SUBT,
+LOAD CSV WITH HEADERS FROM "file:/Users/Lucy/Documents/CS/urbinsight/data/downstream.csv" AS csvLine
+CREATE (:Downstream { geodb_subt: csvLine.GEODB_SUBT,
                     geodb_oid: csvLine.GEODB_OID,
                     object_id: csvLine.OBJECTID,
                     asset_id: csvLine.ASSET_ID,
