@@ -14,7 +14,7 @@ var neo4j = require('node-neo4j');
 //         'http://localhost:7474'
 // );
 
-var dbRemote = require("seraph")({ server: })
+// var dbRemote = require("seraph")({ server: })
 
 
 var app = express();
