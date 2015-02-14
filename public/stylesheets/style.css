@@ -6,3 +6,13 @@ body {
 a {
   color: #00B7FF;
 }
+
+
+h1 {
+	text-align: center;
+	font-size: 40px;
+}
+
+.main_title {
+	color: rgb(100,100,100);
+}
