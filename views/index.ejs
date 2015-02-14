@@ -36,9 +36,11 @@ var map = L.mapbox.map('map', 'examples.map-i86nkdio', {
 
 $('#vancouver_btn').click(function(){
 
-	renderLevel('Upstream', '#7ec9b1');
 	renderLevel('Source', '#9c89cc');
+	renderLevel('Upstream', '#7ec9b1');
 	renderLevel('Downstream', '#fa946e');
+	renderLevel('Sink', '#f1f075')
+
 
 	// $.get('/data/infoByLabel?label=Upstream', function (data, status) {
 	// 	_.each(data, function(location){
