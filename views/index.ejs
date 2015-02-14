@@ -18,7 +18,7 @@
 	
 		<h1>urbinsight</h1>
 			<button id="vancouver_btn" class="btn btn-default">Vancouver</button>
-			<button class="btn btn-primary">Medellin</button>
+			<button id="dummy_btn" class="btn btn-default">Dummy</button>
 		</div>
 			<div id='map'></div>
 
@@ -27,7 +27,6 @@
 	
 
 <script>
-
 
 L.mapbox.accessToken = 'pk.eyJ1IjoibHVjeXEiLCJhIjoiZUlJaWtQRSJ9.CwFNvX2smJ4mav7RmlqwZw';
 var map = L.mapbox.map('map', 'examples.map-i86nkdio', {
@@ -40,11 +39,11 @@ var info = map.getTileJSON();
 //console.log("Map info: " + info);
 
 $('#vancouver_btn').click(function(){
-	$.get('/data/infoByLabel?label=Location', function (data, status) {
+	$.get('/data/infoByLabel?label=Upstream', function (data, status) {
 		_.each(data, function(location){
 			var lat = parseFloat(location.lat);
 			var lng = parseFloat(location.lng);
-			L.marker([lat, lng]).addTo(map).on('click', function() {
+			L.marker([lat, lng], 'red').addTo(map).on('click', function() {
 				renderLine(lat, lng);
 				
 			});
@@ -53,8 +52,26 @@ $('#vancouver_btn').click(function(){
 });
 
 
+
+
+$('#dummy_btn').click(function(){
+	$.get('/data/infoByLabel?label=Location', function (data, status) {
+		_.each(data, function(location){
+			var lat = parseFloat(location.lat);
+			var lng = parseFloat(location.lng);
+			L.marker([lat, lng], 'red').addTo(map).on('click', function() {
+				var query_string = '/data/relationships?node_index=' + location.id;
+				renderLine(lat, lng);
+
+
+			});
+		});
+	});
+});
+
+
+
 function renderLine(lat, lng) {
-	var query_string = '/data/relationships?node_index=' + location.id;
 	$.get(query_string, function(rel_data, status) {
 		_.each (rel_data, function(point) {
 			var coords = [[lat,lng]];
@@ -65,10 +82,11 @@ function renderLine(lat, lng) {
 				var lng_end = parseFloat(node_data.lng);
 				coords.push([lat_end, lng_end]);
 
-				var polyline = L.polyline(coords, {color: 'blue'}).addTo(map);	
+				var polyline = L.polyline(coords, {color: 'teal'}).addTo(map);	
 			});
 		});
 	});
+	
 }
 
 </script>
