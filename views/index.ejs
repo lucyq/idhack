@@ -68,7 +68,7 @@ function renderLevel(label, color) {
 					'marker-color':color
 				})
 			}).addTo(map).on('click', function() {
-				renderLine(lat, lng);
+				renderLine(lat, lng, location, 'in');
 				
 			});
 		});
@@ -78,21 +78,30 @@ function renderLevel(label, color) {
 
 
 $('#dummy_btn').click(function(){
-	$.get('/data/infoByLabel?label=Location', function (data, status) {
-		_.each(data, function(location){
-			var lat = parseFloat(location.lat);
-			var lng = parseFloat(location.lng);
-			L.marker([lat, lng], 'red').addTo(map).on('click', function() {
-				renderLine(lat, lng, location);
-			});
-		});
-	});
+	renderLevel('Location', '#67c0b7');
+
+
+
+	// $.get('/data/infoByLabel?label=Location', function (data, status) {
+	// 	_.each(data, function(location){
+
+
+
+
+	// 		var lat = parseFloat(location.lat);
+	// 		var lng = parseFloat(location.lng);
+	// 		L.marker([lat, lng], 'red').addTo(map).on('click', function() {
+	// 			renderLine(lat, lng, location, 'in');
+	// 		});
+	// 	});
+	// });
 });
 
 
-function renderLine(lat, lng, location) {
-	var query_string = '/data/relationships?node_index=' + location.id;
+function renderLine(lat, lng, location, direction) {
+	var query_string = '/data/relationships?node_index=' + location.id + '&direction=' + direction;
 	$.get(query_string, function(rel_data, status) {
+		if(rel_data )
 		_.each (rel_data, function(point) {
 			var coords = [[lat,lng]];
 			var query_2 = '/data/infoByNode/?node_index=' + point.end;
@@ -101,7 +110,8 @@ function renderLine(lat, lng, location) {
 				var lng_end = parseFloat(node_data.lng);
 				coords.push([lat_end, lng_end]);
 
-				var polyline = L.polyline(coords, {color: 'teal'}).addTo(map);	
+				var polyline = L.polyline(coords, {color: 'teal'}).addTo(map);
+				renderLine(lat_end, lng_end, location)	
 			});
 		});
 	});

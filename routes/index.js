@@ -25,6 +25,7 @@ router.get('/', function(req, res, next) {
 router.get('/data/relationships', function(req, res, next) {
 	var url_parts = url.parse(req.url, true);
 	var node_id = url_parts['query']['node_index'];
+	var direction = url_parts['query']['direction'];
 
 
 	// db.relate(46, 'stream', 49, { for: 'up' }, function(err, relationship) {
@@ -37,7 +38,7 @@ router.get('/data/relationships', function(req, res, next) {
 	// 	});
 	// });
 
-    db.relationships(node_id, 'all', function(err, relationships) {
+    db.relationships(node_id, direction, function(err, relationships) {
     	res.send(relationships);
     });
 
