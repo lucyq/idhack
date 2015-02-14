@@ -60,10 +60,7 @@ $('#dummy_btn').click(function(){
 			var lat = parseFloat(location.lat);
 			var lng = parseFloat(location.lng);
 			L.marker([lat, lng], 'red').addTo(map).on('click', function() {
-				var query_string = '/data/relationships?node_index=' + location.id;
-				renderLine(lat, lng);
-
-
+				renderLine(lat, lng, location);
 			});
 		});
 	});
@@ -71,11 +68,11 @@ $('#dummy_btn').click(function(){
 
 
 
-function renderLine(lat, lng) {
+function renderLine(lat, lng, location) {
+	var query_string = '/data/relationships?node_index=' + location.id;
 	$.get(query_string, function(rel_data, status) {
 		_.each (rel_data, function(point) {
 			var coords = [[lat,lng]];
-			console.log("COORDS: " + coords);
 			var query_2 = '/data/infoByNode/?node_index=' + point.end;
 			$.get(query_2, function(node_data) {
 				var lat_end = parseFloat(node_data.lat);
