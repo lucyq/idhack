@@ -1,16 +1,31 @@
+@font-face{
+	font-family: titleFont;
+	src: url(../fonts/alexindr.ttf);
+}
 body {
   padding: 50px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  /*background: url('../images/office.png');*/
+  background-color: rgb(199,218,215);
+}
+
+button {
+	width: 100px;
+	height: 40px;
+	left: 20%;
 }
 
 a {
   color: #00B7FF;
+  text-align; center
 }
 
 
 h1 {
 	text-align: center;
-	font-size: 40px;
+	font-size: 80px;
+	color: rgb(100, 95, 90);
+	font-family: titleFont;
 }
 
 .main_title {
@@ -18,4 +33,15 @@ h1 {
 }
 
 
+#map {
+	position:absolute; 
+	margin: auto;
+	top: 350px;
+	bottom: 0;
+	right: 0;
+	left: 0;
+	
+	width:80%;
+	height: 600px;
+}
 
