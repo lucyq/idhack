@@ -7,29 +7,44 @@ var bodyParser = require('body-parser');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
-var neo4j = require('node-neo4j');
+// var neo4j = require('node-neo4j');
 
 // var db = new neo4j.GraphDatabase(
 //         process.env['GRAPHENEDB_URL'] ||
 //         'http://localhost:7474'
 // );
 
-// var dbRemote = require("seraph")({ server: })
+var db = require("seraph")({ server: process.env['GRAPHENEDB_URL'] || 'http://localhost:7474'})
+
+db.save({ name: "Test-Man", age: 40}, function(err, node) {
+    if (err) throw err;
+    console.log(node);
+    console.log("Test-Man inserted", node.id);
+
+    db.delete(node, function(err) {
+        if (err) throw err;
+        console.log("Test-Man away!");
+    });
+});
 
 
 var app = express();
-// neo4j test
-var db = new neo4j(process.env['GRAPHENEDB_URL'] || 'http://localhost:7474');
 
 
-var node = db.insertNode({hello: 'world'},     // instantaneous, but...
-    function (err, node) {    // ...this is what actually persists.
-    if (err) {
-        console.error('Error saving new node to database:', err);
-    } else {
-        console.log('Node saved to database with id:', node.id);
-    }
-});
+// node-neo4j test
+// var db = new neo4j(process.env['GRAPHENEDB_URL'] || 'http://localhost:7474');
+
+
+// var node = db.insertNode({hello: 'world'},     // instantaneous, but...
+//     function (err, node) {    // ...this is what actually persists.
+//     if (err) {
+//         console.error('Error saving new node to database:', err);
+//     } else {
+//         console.log('Node saved to database with id:', node._id);
+//     }
+// });
+
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
