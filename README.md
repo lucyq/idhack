@@ -1,5 +1,9 @@
+This is the initial work done on the ID hack project for Urbinsight. The graph database
+has been implemented, and more wrappers are necessary for data input.
+
+
 IDHack Viz 
 
 Data Sources:
 
-https://www.dropbox.com/sh/3wk9ok4mj5er56p/AABSrCrwIgkAV4nzbboWk4qWa?dl=0
+
