@@ -6,14 +6,15 @@ body {
   padding: 50px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
   /*background: url('../images/office.png');*/
-  background-color: rgb(199,218,215);
+  background-color: rgb(100,100,100);
 }
 
-button {
+/*button {
 	width: 100px;
 	height: 40px;
-	left: 20%;
-}
+	padding: 0;
+	margin: 0;
+}*/
 
 a {
   color: #00B7FF;
@@ -24,7 +25,7 @@ a {
 h1 {
 	text-align: center;
 	font-size: 80px;
-	color: rgb(100, 95, 90);
+	color: rgb(224, 237, 239);
 	font-family: titleFont;
 }
 
@@ -32,11 +33,21 @@ h1 {
 	color: rgb(100,100,100);
 }
 
+.toggle {
+	width: 190;
+	margin: 0 auto;
+	
+}
+
+button {
+	background-color: rgb(175, 210, 175);
+}
+
 
 #map {
-	position:absolute; 
+
 	margin: auto;
-	top: 350px;
+	top: 30px;
 	bottom: 0;
 	right: 0;
 	left: 0;

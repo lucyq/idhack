@@ -25,19 +25,20 @@ router.get('/', function(req, res, next) {
 router.get('/data/relationships', function(req, res, next) {
 	var url_parts = url.parse(req.url, true);
 	var node_id = url_parts['query']['node_index'];
+	var direction = url_parts['query']['direction'];
 
 
-	// db.relate(46, 'stream', 49, { for: 'up' }, function(err, relationship) {
+	// db.relate(312, 'stream', 210, { for: 'up' }, function(err, relationship) {
  //  		assert.deepEqual(relationship, {
- //    		start: 46,
-	// 	    end: 49,
+ //    		start: 312,
+	// 	    end: 210,
 	// 	    type: 'stream',
 	// 	    properties: { for: 'up' },
-	// 	    id: 7
+	// 	    id: 22
 	// 	});
 	// });
 
-    db.relationships(node_id, 'all', function(err, relationships) {
+    db.relationships(node_id, direction, function(err, relationships) {
     	res.send(relationships);
     });
 
