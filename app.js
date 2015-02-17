@@ -4,22 +4,14 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-
-
-var routes = require('./routes/index');
-// var users = require('./routes/users');
 var neo4j = require('node-neo4j');
 
+var routes = require('./routes/index');
 var users = require('./routes/users');
-// var neo4j = require('node-neo4j');
-
-// var db = new neo4j.GraphDatabase(
-//         process.env['GRAPHENEDB_URL'] ||
-//         'http://localhost:7474'
-// );
 
 var db = require("seraph")({ server: process.env['GRAPHENEDB_URL'] || 'http://localhost:7474'})
 
+// db test function
 db.save({ name: "Test-Man", age: 40}, function(err, node) {
     if (err) throw err;
     console.log(node);
@@ -33,22 +25,6 @@ db.save({ name: "Test-Man", age: 40}, function(err, node) {
 
 
 var app = express();
-
-
-// node-neo4j test
-// var db = new neo4j(process.env['GRAPHENEDB_URL'] || 'http://localhost:7474');
-
-
-// var node = db.insertNode({hello: 'world'},     // instantaneous, but...
-//     function (err, node) {    // ...this is what actually persists.
-//     if (err) {
-//         console.error('Error saving new node to database:', err);
-//     } else {
-//         console.log('Node saved to database with id:', node._id);
-//     }
-// });
-
-
 
 // view engine setup
 // app.set('views', path.join(__dirname, 'views'));
@@ -89,7 +65,6 @@ if (app.get('env') === 'development') {
     });
 }
 
-
 // production error handler
 // no stacktraces leaked to user
 app.use(function(err, req, res, next) {
@@ -99,8 +74,5 @@ app.use(function(err, req, res, next) {
         error: {}
     });
 });
-
-
-
 
 module.exports = app;
